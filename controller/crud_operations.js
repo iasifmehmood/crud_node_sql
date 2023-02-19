@@ -9,7 +9,7 @@ const addData = async (req, res) => {
   console.log(req.body.name);
   const name = req.body.name;
   const email = req.body.email;
-  const plain_password = req.body.plain_password;
+  const plain_password = req.body.protected_password;
   let protected_password = req.body.protected_password;
   const salt = await bcrypt.genSalt(10);
   protected_password = await bcrypt.hash(protected_password, salt);
@@ -89,7 +89,12 @@ const deleteData = async (req, res) => {
 
 const updateData = async (req, res) => {
   const user = req.body;
-  const updateData = "UPDATE crud_table SET ? where id=" + user.id;
+  let protected_password = req.body.protected_password;
+  const salt = await bcrypt.genSalt(10);
+  protected_password = await bcrypt.hash(protected_password, salt);
+  const query = `email = '${req.body.email}',plain_password = '${req.body.protected_password}',protected_password = '${protected_password}',
+  name = '${req.body.name}',cnic = '${req.body.cnic}',designation = '${req.body.designation}',contact = '${req.body.contact}'`;
+  const updateData = `UPDATE crud_table SET ${query} where id=` + user.id;
   await connection.query(updateData, [user], (err, rows) => {
     if (err) {
       console.log(res.send(err));
