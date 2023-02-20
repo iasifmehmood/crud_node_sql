@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const connection = require("../config/db");
 dotenv.config();
 
-/*****************************************************Add data************************************ */
+/*************************Add data************** */
 
 const addData = async (req, res) => {
   console.log(req.body.name);
@@ -31,6 +31,7 @@ const addData = async (req, res) => {
       function (err, result) {
         if (err) {
           console.log(err);
+          res.status(400);
         } else {
           console.log(res.json({ result }));
           console.log("data inserted successfully");
@@ -42,7 +43,7 @@ const addData = async (req, res) => {
   }
 };
 
-/******************************************************Read Data*************************************** */
+/************************Read Data***************** */
 
 const viewData = async (req, res) => {
   const allData = "select * from crud_table";
@@ -56,7 +57,7 @@ const viewData = async (req, res) => {
   });
 };
 
-/*********************************Read by Id*************************************************/
+/*******************Read by Id************************/
 
 const viewDataById = async (req, res) => {
   const allData = "select * from crud_table WHERE id=?";
@@ -70,7 +71,7 @@ const viewDataById = async (req, res) => {
   });
 };
 
-/******************************************************Delete Data************************************** */
+/*******************Delete Data******************** */
 
 const deleteData = async (req, res) => {
   const deleteData = "DELETE FROM crud_table WHERE id=?";
@@ -84,17 +85,18 @@ const deleteData = async (req, res) => {
   });
 };
 
-/*******************************************************Update Data************************************* */
+/*****************Update Data************************** */
 //provide id to update
 
 const updateData = async (req, res) => {
   const user = req.body;
+  const { id } = req.params;
   let protected_password = req.body.protected_password;
   const salt = await bcrypt.genSalt(10);
   protected_password = await bcrypt.hash(protected_password, salt);
   const query = `email = '${req.body.email}',plain_password = '${req.body.protected_password}',protected_password = '${protected_password}',
   name = '${req.body.name}',cnic = '${req.body.cnic}',designation = '${req.body.designation}',contact = '${req.body.contact}'`;
-  const updateData = `UPDATE crud_table SET ${query} where id=` + user.id;
+  const updateData = `UPDATE crud_table SET ${query} where id=` + id;
   await connection.query(updateData, [user], (err, rows) => {
     if (err) {
       console.log(res.send(err));

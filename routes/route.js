@@ -7,6 +7,6 @@ router.get("/user/view/", route.viewData);
 router.get("/user/view/:id", route.viewDataById);
 router.post("/user/add", route.addData);
 router.delete("/user/view/:id", route.deleteData);
-router.put("/user/view/", route.updateData);
+router.put("/user/view/:id", route.updateData);
 
 module.exports = router;
