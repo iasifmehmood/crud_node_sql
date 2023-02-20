@@ -8,7 +8,7 @@
   "servers": [
     {
       "url": "http://localhost:4000/",
-      "description": "Local Dev"
+      "description": "SWAGGER HOST"
     }
   ],
   "tags": [
@@ -29,7 +29,7 @@
             "description": "OK",
             "schema": {
               "type": "array",
-              "$ref": "#/components/schemas/Emps"
+              "$ref": "#/components/schemas/GetEmployee"
             }
           },
           "500": {
@@ -212,6 +212,60 @@
 
         "xml": {
           "name": "emp"
+        }
+      },
+
+      "GetEmployee": {
+        "required": [
+          "id",
+          "email",
+          "plain_password",
+          "protected_password",
+          "name",
+          "cnic",
+          "designation",
+          "contact"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int(13)",
+            "example": 1
+          },
+          "email": {
+            "type": "string",
+            "example": "asif"
+          },
+          "plain_password": {
+            "type": "string",
+            "example": "asif@email.com"
+          },
+          "protected_password": {
+            "type": "string",
+            "example": "asif@password"
+          },
+          "name": {
+            "type": "string",
+            "example": "password786"
+          },
+          "cnic": {
+            "type": "integer",
+            "format": "int(13)",
+            "example": 3740561125275
+          },
+          "designation": {
+            "type": "string",
+            "example": "user"
+          },
+          "contact": {
+            "type": "integer",
+            "format": "int(11)",
+            "example": 12345678910
+          }
+        },
+
+        "xml": {
+          "name": "emp2"
         }
       }
     }
